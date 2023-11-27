@@ -25,7 +25,7 @@ async function signup(req, res) {
     res.json(user);
   } catch (error) {
     console.error("Errore durante la registrazione:", error);
-    res.status(500).json({ error: "Errore durante la registrazione" });
+    res.status(500).json({ error: `Errore durante la registrazione: ${error.message || 'Dettagli dell\'errore non disponibili'}` });
   }
 }
 
@@ -59,3 +59,5 @@ async function signin(req, res) {
     res.status(500).json({ error: "Errore durante il login" });
   }
 }
+
+module.exports = { signup, signin };
