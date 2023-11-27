@@ -2,6 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const { PrismaClient } = require('@prisma/client');
 const slugify = require('slugify');
+const auth = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -19,7 +20,7 @@ const errorHandler = (err, req, res, next) => {
 };
 
 // Endpoint per creare un nuovo post
-router.post('/posts', validatePost, async (req, res) => {
+router.post('/posts', auth, validatePost, async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -48,7 +49,7 @@ router.post('/posts', validatePost, async (req, res) => {
 });
 
 // Endpoint per recuperare un post utilizzando lo slug
-router.get('/posts/:slug', async (req, res) => {
+router.get('/posts/:slug',  async (req, res) => {
   try {
     const { slug } = req.params;
 
@@ -98,7 +99,7 @@ router.get('/posts', async (req, res) => {
 });
 
 // Endpoint per aggiornare un post
-router.put('/posts/:slug', validatePost, async (req, res) => {
+router.put('/posts/:slug', auth, validatePost, async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -125,7 +126,7 @@ router.put('/posts/:slug', validatePost, async (req, res) => {
 });
 
 // Endpoint per eliminare un post
-router.delete('/posts/:slug', async (req, res) => {
+router.delete('/posts/:slug', auth, async (req, res) => {
   try {
     const { slug } = req.params;
 
