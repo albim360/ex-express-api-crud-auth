@@ -1,9 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const routes = require('./routes/postRoutes');
 const authRoutes = require('./routes/authRoutes');
+
+app.use(cors());
 
 // Middleware per l'analisi del corpo delle richieste in formato JSON
 app.use(express.json());
